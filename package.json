@@ -1,5 +1,5 @@
 {
-  "name": "postcss-prefixwrap",
+  "name": "@sungodltd/postcss-prefixwrap",
   "version": "1.42.0",
   "description": "A PostCSS plugin that is used to wrap css styles with a css selector to constrain their affect on parent elements in a page.",
   "keywords": [
@@ -12,9 +12,9 @@
     "typescript",
     "yarn"
   ],
-  "homepage": "https://github.com/dbtedman/postcss-prefixwrap#readme",
-  "bugs": "https://github.com/dbtedman/postcss-prefixwrap/issues",
-  "repository": "https://github.com/dbtedman/postcss-prefixwrap",
+  "homepage": "https://github.com/sungodltd/postcss-prefixwrap#readme",
+  "bugs": "https://github.com/sungodltd/postcss-prefixwrap/issues",
+  "repository": "https://github.com/sungodltd/postcss-prefixwrap",
   "license": "MIT",
   "author": {
     "name": "Daniel Tedman",
