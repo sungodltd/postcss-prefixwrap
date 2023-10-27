@@ -10,6 +10,7 @@ export interface PostCSSPrefixWrapOptions {
     whitelist?: Array<string>;
     blacklist?: Array<string>;
     nested?: string;
+    prefixSelector?: string;
 }
 
 export default class PostCSSPrefixWrap {
@@ -22,9 +23,16 @@ export default class PostCSSPrefixWrap {
     private readonly nested: string | null;
 
     constructor(
-        prefixSelector: string,
+        prefixSelector: string | PostCSSPrefixWrapOptions,
         options: PostCSSPrefixWrapOptions = {},
     ) {
+        // Support a single argument of options so this
+        // can be used with Nuxt format PostCSS config
+        if (typeof prefixSelector === "object") {
+            options = prefixSelector;
+            prefixSelector = options.prefixSelector ?? "";
+        }
+
         this.blacklist = options.blacklist ?? [];
         this.ignoredSelectors = options.ignoredSelectors ?? [];
         this.isPrefixSelector = new RegExp(
