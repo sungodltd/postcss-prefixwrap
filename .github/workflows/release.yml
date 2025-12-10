@@ -1,30 +1,26 @@
----
-name: "release"
-
-on:
-    release:
-        types: ["published"]
-
-permissions: "read-all"
-
 jobs:
-    release:
-        runs-on: "ubuntu-latest"
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: yarn install --frozen-lockfile
 
-        steps:
-            - uses: "actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608"
-            - uses: "pnpm/action-setup@d882d12c64e032187b2edb46d3a0d003b7a43598"
-              with:
-                  version: "latest"
-            - uses: "actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d"
-              with:
-                  node-version-file: ".nvmrc"
-                  cache: "pnpm"
-            - run: "make install"
-            - run: "make build"
-            - run: "make lint"
-            - run: "make test"
-            - run: "pnpm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN"
-              env:
-                  NPM_AUTH_TOKEN: "${{ secrets.NPM_AUTH_TOKEN }}"
-            - run: "make publish"
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
+      - run: yarn install --frozen-lockfile
+      - run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
